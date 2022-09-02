@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 
+
 function NewMessage({ currentUser, onAddMessage }) {
   const [body, setBody] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
-
-    fetch("http://localhost:4000/messages", {
+    console.log(body.length)
+    console.log(e.target.body.value)
+    //not send whitespace to db
+    if (body != null && body.trim() !== '') {
+    fetch("http://localhost:9292/messages", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -21,6 +25,10 @@ function NewMessage({ currentUser, onAddMessage }) {
         onAddMessage(newMessage);
         setBody("");
       });
+    }
+    else{
+      console.log("Error");
+    }
   }
 
   return (
